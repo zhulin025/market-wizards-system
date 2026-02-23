@@ -1,11 +1,14 @@
 // src/pages/index.js
 import Head from 'next/head';
+import Link from 'next/link';
 import TradingViewChart from '../components/TradingViewChart';
 import TechnicalIndicators from '../components/TechnicalIndicators';
 import AdvancedIndicators from '../components/AdvancedIndicators';
-import NewsFeed from '../components/NewsFeed'; // Added
+import Screener from '../components/Screener';
+import RiskCalculator from '../components/RiskCalculator';
+import Journal from '../components/Journal';
 import { useState } from 'react';
-import { useTranslation } from '../i18n';
+import { useTranslation } from '../components/LanguageProvider';
 
 export default function Home() {
   const [symbol, setSymbol] = useState('BTC-USD');
@@ -24,6 +27,15 @@ export default function Home() {
           🦞 Market Wizards AI
         </h1>
         <div className="flex gap-4 items-center">
+            {/* AI Intelligence Button */}
+            <Link 
+              href="/ai"
+              className="px-4 py-2 rounded bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-medium flex items-center gap-2 transition-all shadow-md"
+            >
+              <span className="text-lg">🧠</span>
+              {locale === 'zh' ? 'AI 情报' : 'AI Intel'}
+            </Link>
+
             <select 
               value={locale} 
               onChange={(e) => setLocale(e.target.value)}
@@ -45,7 +57,7 @@ export default function Home() {
       </header>
 
       <main className="p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Left Column: Chart & Technicals */}
+        {/* Main Content: Full Width Logic Restored */}
         <div className="lg:col-span-3 space-y-6">
           <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden h-[500px]">
              <TradingViewChart symbol={symbol} />
@@ -55,17 +67,33 @@ export default function Home() {
             <TechnicalIndicators symbol={symbol} />
             <AdvancedIndicators symbol={symbol} />
           </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+             <Screener />
+             <RiskCalculator />
+          </div>
+
+          <Journal />
         </div>
 
-        {/* Right Column: Intelligence Hub */}
+        {/* Sidebar: Optional / Future Widgets */}
         <div className="lg:col-span-1 space-y-6">
-           <NewsFeed />
-           
-           {/* Placeholder for future "Deep Dive" Analysis */}
-           <div className="p-4 bg-gray-800 rounded-lg border border-gray-700 text-center text-gray-500 text-sm">
-              🤖 AI Analyst (Coming Soon)
-              <br/>
-              "Waiting for your command..."
+           <div className="p-4 bg-gray-800 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-bold mb-4">{t('quickTips')}</h3>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-gray-400">
+                {(t('tips') || []).map((tip, idx) => (
+                  <li key={idx}>{tip}</li>
+                ))}
+              </ul>
+           </div>
+
+           <div className="p-4 bg-gray-800 rounded-lg border border-gray-700">
+              <h3 className="text-lg font-bold mb-4">{t('ironRules')}</h3>
+              <ul className="list-disc pl-5 space-y-2 text-sm text-red-400">
+                {(t('rules') || []).map((rule, idx) => (
+                  <li key={idx}>{rule}</li>
+                ))}
+              </ul>
            </div>
         </div>
       </main>

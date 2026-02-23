@@ -1,5 +1,8 @@
+// src/i18n/index.js (更新以包含默认导出)
+
 // 中文语言包
 export const zh = {
+  title: "市场巫师 AI 交易系统",
   // Header
   dashboard: "仪表盘",
   screener: "筛选器",
@@ -32,7 +35,7 @@ export const zh = {
   week52Low: "52周最低",
 
   // Quick Tips
-  quickTips: "快速要点（Minervini）",
+  quickTips: "快速要点 (Minervini)",
   tips: [
     "尊重趋势。永远不要逆趋势交易。",
     "等待 VCP（波动收缩形态）形成。",
@@ -41,7 +44,7 @@ export const zh = {
   ],
 
   // Risk Calculator
-  riskManagement: "风险管理（1-2%法则）",
+  riskManagement: "风险管理 (1-2%法则)",
   accountSize: "账户规模 ($)",
   riskPerTrade: "每笔风险 (%)",
   stopLossPercent: "止损幅度 (%)",
@@ -79,6 +82,7 @@ export const zh = {
 
 // English language pack
 export const en = {
+  title: "Market Wizards AI System",
   // Header
   dashboard: "Dashboard",
   screener: "Screener",

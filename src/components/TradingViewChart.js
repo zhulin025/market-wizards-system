@@ -1,19 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { useLanguage } from './LanguageProvider';
+import { useTranslation } from './LanguageProvider'; // Changed from useLanguage
 
-export default function TradingViewChart({ t }) {
-  const { lang } = useLanguage();
-  const isZh = lang === 'zh';
+export default function TradingViewChart({ t: propT }) { // Rename propT to avoid conflict if we use t from hook
+  const { locale, t } = useTranslation(); // Use useTranslation and locale
+  const isZh = locale === 'zh';
   
   const [ticker, setTicker] = useState('AAPL');
   const [chartType, setChartType] = useState('stock');
 
-  const labels = t || {
-    tradingViewChart: "TradingView Chart",
-    enterTicker: "Enter Symbol",
-    loadChart: "Load Chart",
-    chartType: "Chart Type",
-    fullscreen: "Fullscreen",
+  // Use hook t if available, otherwise fallback to prop or default object
+  // But wait, the component receives t as a prop? 
+  // The original code was: const labels = t || { ... }
+  // Let's stick to using the hook t since it's cleaner.
+
+  const labels = {
+    tradingViewChart: t('tradingViewChart') || "TradingView Chart",
+    enterTicker: t('enterTicker') || "Enter Symbol",
+    loadChart: t('loadChart') || "Load Chart",
+    chartType: t('chartType') || "Chart Type",
+    fullscreen: t('fullscreen') || "Fullscreen",
   };
 
   const chartTypes = [

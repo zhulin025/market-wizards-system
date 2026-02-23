@@ -12,6 +12,13 @@
 
 ## 🎯 功能模块
 
+### 🧠 智能情报中心 (New!)
+| 功能 | 说明 |
+|------|------|
+| 🗞️ **NewsFeed** | **实时聚合 Twitter/X、CoinTelegraph、CoinDesk、Yahoo Finance 情报** |
+| 🤖 **AI 摘要** | 自动过滤噪音，提取关键交易信号 (Bullish/Bearish) |
+| 📊 **独立面板** | 点击顶部 "🧠 AI Intel" 进入专属情报页面 |
+
 ### 核心工具
 | 功能 | 说明 |
 |------|------|
@@ -52,6 +59,7 @@
 | 📊 回测系统 | 历史数据回测，统计胜率、盈亏比、最大回撤 |
 | 📤 数据导出 | 导出/导入 JSON/CSV，支持数据备份 |
 | 🔗 券商API集成 | Alpaca、TD Ameritrade、盈透证券等 |
+| 🔗 **OpenBB 集成** | (Beta) 支持本地 OpenBB 金融终端后端 |
 
 ## 🌐 多语言支持
 
@@ -63,6 +71,7 @@
 
 | 数据源 | 说明 | API Key要求 |
 |--------|------|-------------|
+| 🧠 **Intelligence Hub** | **本地 SQLite + RSS聚合** (AI驱动) | 无需 |
 | 🟣 **Yahoo Finance** | 默认首选，免费 | 无需 |
 | 🔵 **Alpha Vantage** | 免费 tier: 5req/min, 500req/day | 需要免费API Key |
 | 🟢 **iTick** | 免费实时行情 | 无需 |
@@ -81,7 +90,7 @@ echo 'ALPHA_VANTAGE_API_KEY=your_api_key_here' > .env.local
 
 ```bash
 cd market-wizards-system
-npm install
+npm install  # 首次运行需安装新依赖 (better-sqlite3, rss-parser)
 npm run dev
 ```
 
@@ -97,7 +106,7 @@ npm run dev
 ## 🔧 技术栈
 
 - **前端**: Next.js (React) + Tailwind CSS
-- **后端**: Next.js API Routes
+- **后端**: Next.js API Routes + SQLite (better-sqlite3)
 - **图表**: TradingView Widget + Canvas
-- **数据**: Yahoo Finance / Alpha Vantage / iTick
-- **存储**: LocalStorage
+- **数据**: RSS Parser + OpenBB (Optional)
+- **存储**: LocalStorage + SQLite

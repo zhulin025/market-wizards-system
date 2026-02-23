@@ -1,35 +1,34 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
-import { zh, en } from '../i18n';
-
-const translations = { zh, en };
+// src/components/LanguageProvider.js
+import { createContext, useContext, useState, useEffect } from 'react';
+import { en, zh } from '../i18n';
 
 const LanguageContext = createContext();
 
 export function LanguageProvider({ children }) {
-  const [lang, setLang] = useState('zh'); // Default to Chinese
+  const [locale, setLocale] = useState('en');
 
+  // Load saved locale
   useEffect(() => {
-    const saved = localStorage.getItem('mw-lang');
-    if (saved && translations[saved]) {
-      setLang(saved);
-    }
+    const saved = localStorage.getItem('locale');
+    if (saved) setLocale(saved);
   }, []);
 
-  const toggleLang = () => {
-    const newLang = lang === 'zh' ? 'en' : 'zh';
-    setLang(newLang);
-    localStorage.setItem('mw-lang', newLang);
+  // Save locale on change
+  useEffect(() => {
+    localStorage.setItem('locale', locale);
+  }, [locale]);
+
+  const t = (key) => {
+    const dict = locale === 'zh' ? zh : en;
+    return dict[key] || key;
   };
 
-  const t = translations[lang];
-
   return (
-    <LanguageContext.Provider value={{ lang, toggleLang, t }}>
+    <LanguageContext.Provider value={{ locale, lang: locale, setLocale, setLang: setLocale, t }}>
       {children}
     </LanguageContext.Provider>
   );
 }
 
-export function useLanguage() {
-  return useContext(LanguageContext);
-}
+export const useTranslation = () => useContext(LanguageContext);
+export const useLanguage = () => useContext(LanguageContext);

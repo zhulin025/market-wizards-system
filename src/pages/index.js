@@ -1,4 +1,3 @@
-// src/pages/index.js
 import Head from 'next/head';
 import Link from 'next/link';
 import TradingViewChart from '../components/TradingViewChart';
@@ -6,14 +5,23 @@ import TechnicalIndicators from '../components/TechnicalIndicators';
 import AdvancedIndicators from '../components/AdvancedIndicators';
 import Screener from '../components/Screener';
 import RiskCalculator from '../components/RiskCalculator';
+import KellyCalculator from '../components/KellyCalculator'; // Added
+import ProbabilityEstimator from '../components/ProbabilityEstimator'; // Added
 import Journal from '../components/Journal';
-import { useState } from 'react';
+import DarvasBoxDetector from '../components/DarvasBoxDetector'; 
+import { useState, useEffect } from 'react';
 import { useTranslation } from '../components/LanguageProvider';
+import { getRandomWisdom } from '../data/wisdom';
 
 export default function Home() {
   const [symbol, setSymbol] = useState('BTC-USD');
   const [timeframe, setTimeframe] = useState('1d');
+  const [dailyWisdom, setDailyWisdom] = useState(null);
   const { t, locale, setLocale } = useTranslation();
+
+  useEffect(() => {
+    setDailyWisdom(getRandomWisdom());
+  }, []);
 
   return (
     <div className="min-h-screen bg-gray-900 text-gray-100">
@@ -56,8 +64,16 @@ export default function Home() {
         </div>
       </header>
 
+      {/* Wisdom Banner */}
+      {dailyWisdom && (
+        <div className="bg-blue-900/20 border-b border-blue-800/50 py-2 px-4 text-center text-xs md:text-sm text-blue-200">
+          <span className="font-bold mr-2">📚 Daily Wisdom:</span>
+          "{dailyWisdom.quote}" — <span className="italic text-blue-400">{dailyWisdom.author}</span>
+        </div>
+      )}
+
       <main className="p-4 grid grid-cols-1 lg:grid-cols-4 gap-6">
-        {/* Main Content: Full Width Logic Restored */}
+        {/* Main Content */}
         <div className="lg:col-span-3 space-y-6">
           <div className="bg-gray-800 rounded-xl shadow-lg border border-gray-700 overflow-hidden h-[500px]">
              <TradingViewChart symbol={symbol} />
@@ -68,16 +84,26 @@ export default function Home() {
             <AdvancedIndicators symbol={symbol} />
           </div>
           
+          {/* Strategy Row */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+             <DarvasBoxDetector symbol={symbol} />
              <Screener />
+          </div>
+
+          {/* Quant Row (New) */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
              <RiskCalculator />
+             <KellyCalculator /> {/* Added */}
           </div>
 
           <Journal />
         </div>
 
-        {/* Sidebar: Optional / Future Widgets */}
+        {/* Sidebar */}
         <div className="lg:col-span-1 space-y-6">
+           {/* Probability Tool (New) */}
+           <ProbabilityEstimator />
+
            <div className="p-4 bg-gray-800 rounded-lg border border-gray-700">
               <h3 className="text-lg font-bold mb-4">{t('quickTips')}</h3>
               <ul className="list-disc pl-5 space-y-2 text-sm text-gray-400">
